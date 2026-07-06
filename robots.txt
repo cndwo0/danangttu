@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://danangttu.com/sitemap.xml
 Host: https://danangttu.com

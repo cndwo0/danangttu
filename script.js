@@ -1,73 +1,32 @@
 (function(){
-  'use strict';
-
-  const header = document.getElementById('siteHeader');
-  const kakaoButtons = document.querySelectorAll('.kakao-btn');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImage = document.getElementById('lightboxImage');
-  const lightboxClose = document.querySelector('.lightbox-close');
-
-  const onScroll = () => {
-    if (!header) return;
-    header.classList.toggle('scrolled', window.scrollY > 24);
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  const sendLeadEvent = (label) => {
-    if (typeof window.gtag !== 'function') return;
-
-    window.gtag('event', 'generate_lead', {
-      method: 'kakao',
-      event_category: 'reservation',
-      event_label: label || 'kakao_button'
-    });
-
-    window.gtag('event', 'click_kakao', {
-      method: 'kakao',
-      event_category: 'button_click',
-      event_label: label || 'kakao_button'
-    });
-  };
-
-  kakaoButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      sendLeadEvent(button.dataset.label || button.textContent.trim());
+  const kakaoButtons=document.querySelectorAll('.kakao-btn');
+  kakaoButtons.forEach((btn,index)=>{
+    btn.addEventListener('click',()=>{
+      if(typeof window.gtag==='function'){
+        window.gtag('event','generate_lead',{method:'kakao',button_position:index+1});
+        window.gtag('event','click_kakao',{event_category:'reservation',event_label:btn.textContent.trim()});
+      }
     });
   });
 
-  document.querySelectorAll('.lightbox-open').forEach((button) => {
-    button.addEventListener('click', () => {
-      if (!lightbox || !lightboxImage) return;
-      const src = button.getAttribute('data-image');
-      if (!src) return;
-      const img = button.querySelector('img');
-      lightboxImage.src = src;
-      lightboxImage.alt = img ? img.alt : '다낭 참섬 호핑투어 이미지';
-      lightbox.classList.add('active');
-      lightbox.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+  const lightbox=document.querySelector('.lightbox');
+  const lightboxImg=lightbox?lightbox.querySelector('img'):null;
+  const closeBtn=lightbox?lightbox.querySelector('button'):null;
+  document.querySelectorAll('.gallery button').forEach(button=>{
+    button.addEventListener('click',()=>{
+      if(!lightbox||!lightboxImg)return;
+      lightboxImg.src=button.dataset.img;
+      lightbox.classList.add('show');
+      lightbox.setAttribute('aria-hidden','false');
     });
   });
-
-  const closeLightbox = () => {
-    if (!lightbox || !lightboxImage) return;
-    lightbox.classList.remove('active');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightboxImage.removeAttribute('src');
-    lightboxImage.alt = '';
-    document.body.style.overflow = '';
-  };
-
-  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-  if (lightbox) {
-    lightbox.addEventListener('click', (event) => {
-      if (event.target === lightbox) closeLightbox();
-    });
+  function closeLightbox(){
+    if(!lightbox||!lightboxImg)return;
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden','true');
+    lightboxImg.src='';
   }
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeLightbox();
-  });
+  if(closeBtn)closeBtn.addEventListener('click',closeLightbox);
+  if(lightbox)lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 })();
