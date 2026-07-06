@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://danangttu.com/</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <image:image><image:loc>https://danangttu.com/cham.jpg</image:loc><image:title>다낭 참섬 호핑투어</image:title></image:image>
-    <image:image><image:loc>https://danangttu.com/beach1.jpg</image:loc><image:title>다낭 참섬 해변</image:title></image:image>
-    <image:image><image:loc>https://danangttu.com/beach2.jpg</image:loc><image:title>참섬 호핑투어 바다</image:title></image:image>
-    <image:image><image:loc>https://danangttu.com/beach3.png</image:loc><image:title>다낭 참섬 스노클링</image:title></image:image>
-    <image:image><image:loc>https://danangttu.com/beach4.jpg</image:loc><image:title>참섬 호핑투어 풍경</image:title></image:image>
   </url>
 </urlset>
