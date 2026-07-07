@@ -1,42 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var kakaoButtons = document.querySelectorAll('.kakao-btn');
-  kakaoButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          method: 'kakao',
-          event_category: 'reservation',
-          event_label: button.textContent.trim()
-        });
+(function(){
+  const kakaoButtons=document.querySelectorAll('.kakao-btn');
+  kakaoButtons.forEach((btn,index)=>{
+    btn.addEventListener('click',()=>{
+      if(typeof window.gtag==='function'){
+        window.gtag('event','generate_lead',{method:'kakao',button_position:index+1});
+        window.gtag('event','click_kakao',{event_category:'reservation',event_label:btn.textContent.trim()});
       }
     });
   });
 
-  var lightbox = document.querySelector('.lightbox');
-  var lightboxImage = document.querySelector('.lightbox img');
-  var closeButton = document.querySelector('.lightbox-close');
-  document.querySelectorAll('.gallery-item').forEach(function (item) {
-    item.addEventListener('click', function () {
-      var src = item.getAttribute('data-image');
-      if (!src || !lightbox || !lightboxImage) return;
-      lightboxImage.src = src;
-      lightbox.classList.add('is-open');
-      lightbox.setAttribute('aria-hidden', 'false');
+  const lightbox=document.querySelector('.lightbox');
+  const lightboxImg=lightbox?lightbox.querySelector('img'):null;
+  const closeBtn=lightbox?lightbox.querySelector('button'):null;
+  document.querySelectorAll('.gallery button').forEach(button=>{
+    button.addEventListener('click',()=>{
+      if(!lightbox||!lightboxImg)return;
+      lightboxImg.src=button.dataset.img;
+      lightbox.classList.add('show');
+      lightbox.setAttribute('aria-hidden','false');
     });
   });
-  function closeLightbox() {
-    if (!lightbox || !lightboxImage) return;
-    lightbox.classList.remove('is-open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightboxImage.src = '';
+  function closeLightbox(){
+    if(!lightbox||!lightboxImg)return;
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden','true');
+    lightboxImg.src='';
   }
-  if (closeButton) closeButton.addEventListener('click', closeLightbox);
-  if (lightbox) {
-    lightbox.addEventListener('click', function (event) {
-      if (event.target === lightbox) closeLightbox();
-    });
-  }
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') closeLightbox();
-  });
-});
+  if(closeBtn)closeBtn.addEventListener('click',closeLightbox);
+  if(lightbox)lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+})();
