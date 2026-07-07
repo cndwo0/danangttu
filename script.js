@@ -1,43 +1,40 @@
 (function () {
-  const kakaoLinks = document.querySelectorAll('.kakao-link');
-  kakaoLinks.forEach((link) => {
-    link.addEventListener('click', () => {
+  const kakaoButtons = document.querySelectorAll('.kakao-btn');
+  kakaoButtons.forEach((button) => {
+    button.addEventListener('click', function () {
       if (typeof window.gtag === 'function') {
         window.gtag('event', 'generate_lead', {
           method: 'kakao',
           event_category: 'reservation',
-          event_label: link.textContent.trim()
-        });
-        window.gtag('event', 'click_kakao', {
-          event_category: 'reservation',
-          event_label: link.textContent.trim()
+          event_label: this.textContent.trim()
         });
       }
     });
   });
 
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox ? lightbox.querySelector('img') : null;
-  const closeBtn = lightbox ? lightbox.querySelector('.lightbox__close') : null;
+  const lightbox = document.querySelector('.lightbox');
+  const lightboxImage = lightbox ? lightbox.querySelector('img') : null;
+  const lightboxClose = lightbox ? lightbox.querySelector('button') : null;
+  const galleryButtons = document.querySelectorAll('.gallery-grid button');
 
-  document.querySelectorAll('.gallery-item img').forEach((img) => {
-    img.parentElement.addEventListener('click', () => {
-      if (!lightbox || !lightboxImg) return;
-      lightboxImg.src = img.currentSrc || img.src;
-      lightboxImg.alt = img.alt;
-      lightbox.classList.add('is-open');
+  galleryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const src = button.getAttribute('data-img');
+      if (!lightbox || !lightboxImage || !src) return;
+      lightboxImage.src = src;
+      lightbox.classList.add('show');
       lightbox.setAttribute('aria-hidden', 'false');
     });
   });
 
   function closeLightbox() {
-    if (!lightbox || !lightboxImg) return;
-    lightbox.classList.remove('is-open');
+    if (!lightbox || !lightboxImage) return;
+    lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
-    lightboxImg.src = '';
+    lightboxImage.src = '';
   }
 
-  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
   if (lightbox) {
     lightbox.addEventListener('click', (event) => {
       if (event.target === lightbox) closeLightbox();
