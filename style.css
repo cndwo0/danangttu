@@ -545,7 +545,7 @@ details p {
   color: #fff;
   background:
     linear-gradient(rgba(0, 31, 38, 0.74), rgba(0, 31, 38, 0.82)),
-    url("beach2.jpg") center / cover no-repeat;
+    url("danang-cham-island-02.jpg") center / cover no-repeat;
 }
 
 .reserve .label {
@@ -937,4 +937,17 @@ footer {
   .trust span {
     font-size: 12px;
   }
+}.footer-blog {
+  margin-top: 18px;
+  color: rgba(255,255,255,0.82);
+  font-size: 15px;
+}
+
+.footer-blog-link {
+  display: inline-flex;
+  margin-top: 10px;
+  color: #ffd400;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
 }
